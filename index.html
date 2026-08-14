@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arsenal OSINT Brasil — Ferramentas de Investigação Digital | Durço Consultoria</title>
+<meta name="description" content="Coleção curada de ferramentas OSINT (Open Source Intelligence) para o Brasil: consulta CNPJ, processos judiciais, WHOIS, vazamentos de dados, dark web e mais. Por Durço Consultoria de TI & Cyber Security.">
+<meta name="keywords" content="OSINT, OSINT Brasil, investigação digital, consulta CNPJ, consulta processos, WHOIS, vazamento de dados, dark web, inteligência de fontes abertas, Durço Consultoria">
+<meta property="og:title" content="Arsenal OSINT Brasil — Durço Consultoria">
+<meta property="og:description" content="Ferramentas de investigação digital e inteligência de fontes abertas para o Brasil.">
+<style>
+  :root {
+    --bg: #0b0f17;
+    --bg-card: #131a26;
+    --bg-card-hover: #1a2332;
+    --border: #232f42;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --accent: #22d3ee;
+    --accent2: #f59e0b;
+    --danger: #ef4444;
+    --radius: 10px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.5;
+  }
+  header {
+    padding: 3rem 1.5rem 2rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: radial-gradient(ellipse at top, rgba(34,211,238,0.08), transparent 60%);
+  }
+  header h1 {
+    font-size: 2.2rem;
+    letter-spacing: -0.5px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  header p { color: var(--text-dim); max-width: 720px; margin: 0.8rem auto 0; font-size: 1.05rem; }
+  .badge {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.3rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    background: var(--bg-card);
+  }
+  main { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+  .cat {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.2rem;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .cat:hover { background: var(--bg-card-hover); border-color: #31415c; }
+  .cat h2 {
+    font-size: 1.05rem;
+    margin-bottom: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent);
+  }
+  .cat h2 .icon { font-size: 1.15rem; }
+  .cat ul { list-style: none; }
+  .cat li { margin-bottom: 0.45rem; }
+  .cat a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.92rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.35rem;
+    border-radius: 6px;
+    transition: background 0.12s ease, color 0.12s ease;
+  }
+  .cat a:hover { color: var(--accent); background: rgba(34,211,238,0.08); }
+  .cat a .ext { color: var(--text-dim); font-size: 0.75rem; opacity: 0.7; }
+  .cat a:hover .ext { opacity: 1; }
+  .note {
+    margin-top: 2rem;
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: var(--radius);
+    background: rgba(245,158,11,0.05);
+    font-size: 0.88rem;
+    color: var(--text-dim);
+  }
+  .cta {
+    margin-top: 2.5rem;
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, rgba(34,211,238,0.08), rgba(245,158,11,0.06));
+  }
+  .cta h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .cta p { color: var(--text-dim); margin-bottom: 1.2rem; }
+  .btn {
+    display: inline-block;
+    padding: 0.7rem 1.6rem;
+    background: linear-gradient(90deg, var(--accent), #0891b2);
+    color: #04121a;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(34,211,238,0.25); }
+  footer {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.82rem;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  @media (max-width: 640px) {
+    header h1 { font-size: 1.6rem; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🕵️ Arsenal OSINT Brasil</h1>
+  <p>Inteligência de fontes abertas (Open Source Intelligence) para investigação digital: consultas públicas, processos, domínios, vazamentos e mais — curado pela <strong>Durço Consultoria de TI & Cyber Security</strong>.</p>
+  <span class="badge">Atualizado: agosto/2026 · Fontes oficiais e gratuitas em destaque</span>
+</header>
+
+<main>
+  <div class="grid">
+
+    <!-- CNPJ / CPF -->
+    <section class="cat">
+      <h2><span class="icon">🏢</span> CNPJ / CPF</h2>
+      <ul>
+        <li><a href="https://www.gov.br/receitafederal/pt-br/servicos/cadastro/cnpj" target="_blank" rel="noopener">Receita Federal — CNPJ <span class="ext">gov.br ↗</span></a></li>
+        <li><a href="https://www.gov.br/pt-br/servicos/consultar-cadastro-nacional-de-pessoas-juridicas" target="_blank" rel="noopener">Consulta Cadastral CNPJ (GOV.BR) <span class="ext">gov.br ↗</span></a></li>
+        <li><a href="https://www.gov.br/receitafederal" target="_blank" rel="noopener">Receita Federal — Portal <span class="ext">gov.br ↗</span></a></li>
+        <li><a href="https://solucoes.receita.fazenda.gov.br/servicos/cnpjreva/cnpjreva_solicitacao.asp" target="_blank" rel="noopener">Comprovante CNPJ (cartão) <span class="ext">oficial ↗</span></a></li>
+      </ul>
+    </section>
+
+    <!-- Empresas -->
+    <section class="cat">
+      <h2><span class="icon">📊</span> Empresas</h2>
+      <ul>
+        <li><a href="https://www.jucesp.sp.gov.br" target="_blank" rel="noopener">JUCESP — Registro de Empresas SP <span class="ext">oficial ↗</span></a></li>
+        <li><a href="https://www.sintegra.gov.br" target="_blank" rel="noopener">Sintegra — Inscrição Estadual <span class="ext">oficial ↗</span></a></li>
+        <li><a href="https://www.gov.br/empresas-e-negocios" target="_blank" rel="noopener">REDESIM — Portal Empresas <span class="ext">gov.br ↗</span></a></li>
+        <li><a href="https://portaldatransparencia.gov.br" target="_blank" rel="noopener">Portal da Transparência <span class="ext">oficial ↗</span></a></li>
+        <li><a href="https://www.contabilizei.com.br/consulta-cnpj-cartao" target="_blank" rel="noopener">Consulta CNPJ (Contabilizei) <span class="ext">grátis ↗</span></a></li>
+      </ul>
+    </section>
+
+    <!-- Jurídico / Processos -->
+    <section class="cat">
+      <h2><span class="icon">⚖️</span> Jurídico / Processos</h2>
+      <ul>
+        <li><a href="https://www.tjsp.jus.br/Processos" target="_blank" rel="noopener">TJSP — Consulta Processual <span class="ext">oficial ↗</span></a></li>
+        <li><a href="https://www.cnj.jus.br/sistemas/datajud/api-publica" target="_blank" rel="noopener">CNJ Datajud — API Pública <span class="ext">oficial ↗</span></a></li>
+        <li><a href="https://www.jusbrasil.com.br/consulta-processual" target="_blank" rel="noopener">JusBrasil — Consulta Processual <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://www.escavador.com" target="_blank" rel="noopener">Escavador — Processos por CPF/CNPJ <span class="ext">grátis ↗</span></a></li>
+      </ul>
+    </section>
+
+    <!-- Domínios / WHOIS -->
+    <section class="cat">
+      <h2><span class="icon">🌐</span> Domínios / WHOIS</h2>
+      <ul>
+        <li><a href="https://registro.br/tecnologia/ferramentas/whois/" target="_blank" rel="noopener">WHOIS Registro.br — oficial .br <span class="ext">oficial ↗</span></a></li>
+        <li><a href="https://www.whois.com/whois/" target="_blank" rel="noopener">Whois.com — domínios globais <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://registro.br" target="_blank" rel="noopener">Registro.br — Central <span class="ext">oficial ↗</span></a></li>
+        <li><a href="https://dnschecker.org" target="_blank" rel="noopener">DNS Checker <span class="ext">grátis ↗</span></a></li>
+      </ul>
+    </section>
+
+    <!-- Vazamentos -->
+    <section class="cat">
+      <h2><span class="icon">🔓</span> Vazamentos de Dados</h2>
+      <ul>
+        <li><a href="https://haveibeenpwned.com" target="_blank" rel="noopener">Have I Been Pwned <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://breachdirectory.org" target="_blank" rel="noopener">BreachDirectory <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://cybernews.com/personal-data-leak-check/" target="_blank" rel="noopener">Cybernews Leak Checker <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://intelx.io" target="_blank" rel="noopener">Intelligence X <span class="ext">grátis/pago ↗</span></a></li>
+      </ul>
+    </section>
+
+    <!-- Pessoas / Redes -->
+    <section class="cat">
+      <h2><span class="icon">👤</span> Pessoas / Redes Sociais</h2>
+      <ul>
+        <li><a href="https://whatsmyname.app" target="_blank" rel="noopener">WhatsMyName — username em 300+ sites <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://www.idcrawl.com" target="_blank" rel="noopener">IDCrawl — busca de pessoas <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://github.com/sherlock-project/sherlock" target="_blank" rel="noopener">Sherlock (GitHub) <span class="ext">open source ↗</span></a></li>
+        <li><a href="https://pypi.org/project/maigret/" target="_blank" rel="noopener">Maigret (Python) <span class="ext">open source ↗</span></a></li>
+      </ul>
+    </section>
+
+    <!-- E-mail -->
+    <section class="cat">
+      <h2><span class="icon">✉️</span> E-mail</h2>
+      <ul>
+        <li><a href="https://hunter.io/email-verifier" target="_blank" rel="noopener">Hunter.io — Verificador <span class="ext">grátis/pago ↗</span></a></li>
+        <li><a href="https://epieos.com" target="_blank" rel="noopener">Epieos — Email Lookup <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://emailrep.io" target="_blank" rel="noopener">EmailRep.io <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://verify-email.org" target="_blank" rel="noopener">Verify Email <span class="ext">grátis ↗</span></a></li>
+      </ul>
+    </section>
+
+    <!-- Deep / Dark Web -->
+    <section class="cat">
+      <h2><span class="icon">🕸️</span> Deep / Dark Web</h2>
+      <ul>
+        <li><a href="https://ahmia.fi" target="_blank" rel="noopener">Ahmia — busca Tor <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://darktracer.io" target="_blank" rel="noopener">Dark Tracer — monitoramento <span class="ext">grátis/pago ↗</span></a></li>
+        <li><a href="https://ransomwatch.telemetry.ltd" target="_blank" rel="noopener">Ransomwatch — grupos de ransomware <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://onionengine.com" target="_blank" rel="noopener">Onion Search Engine <span class="ext">grátis ↗</span></a></li>
+      </ul>
+    </section>
+
+    <!-- Geo / Mapas -->
+    <section class="cat">
+      <h2><span class="icon">📍</span> Geo / Mapas</h2>
+      <ul>
+        <li><a href="https://www.google.com/maps" target="_blank" rel="noopener">Google Maps <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://www.openstreetmap.org" target="_blank" rel="noopener">OpenStreetMap <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://yandex.com/maps/" target="_blank" rel="noopener">Yandex Maps <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://www.mapillary.com" target="_blank" rel="noopener">Mapillary — fotos de rua <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://www.google.com/earth" target="_blank" rel="noopener">Google Earth <span class="ext">grátis ↗</span></a></li>
+      </ul>
+    </section>
+
+    <!-- Buscadores -->
+    <section class="cat">
+      <h2><span class="icon">🔎</span> Buscadores</h2>
+      <ul>
+        <li><a href="https://www.google.com" target="_blank" rel="noopener">Google <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://yandex.com" target="_blank" rel="noopener">Yandex <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://duckduckgo.com" target="_blank" rel="noopener">DuckDuckGo <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://www.startpage.com" target="_blank" rel="noopener">Startpage <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://searx.info" target="_blank" rel="noopener">Searx — meta-buscador <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://search.brave.com" target="_blank" rel="noopener">Brave Search <span class="ext">grátis ↗</span></a></li>
+      </ul>
+    </section>
+
+    <!-- Aprenda OSINT -->
+    <section class="cat">
+      <h2><span class="icon">🎓</span> Aprenda OSINT</h2>
+      <ul>
+        <li><a href="https://osintframework.com" target="_blank" rel="noopener">OSINT Framework <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://inteltechniques.com/tools/" target="_blank" rel="noopener">IntelTechniques Tools <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://start.me/p/L1rEYQ/osint4all" target="_blank" rel="noopener">OSINT4ALL — painel global <span class="ext">grátis ↗</span></a></li>
+        <li><a href="https://www.bellingcat.com" target="_blank" rel="noopener">Bellingcat — investigação <span class="ext">grátis ↗</span></a></li>
+      </ul>
+    </section>
+
+  </div>
+
+  <div class="note">
+    ⚠️ <strong>Uso responsável:</strong> estas ferramentas utilizam apenas <strong>fontes públicas e oficiais</strong>. A coleta e o uso de dados pessoais no Brasil são regulados pela <strong>LGPD (Lei 13.709/2018)</strong>. Investigação profissional deve sempre observar finalidade legítima, necessidade e os direitos dos titulares. A Durço Consultoria utiliza estas técnicas exclusivamente para fins de segurança da informação e due diligence, em conformidade com a lei.
+  </div>
+
+  <div class="cta">
+    <h3>🛡️ Precisa de investigação digital ou segurança?</h3>
+    <p>Due diligence, verificação de fraudes, monitoramento de vazamentos, adequação LGPD, testes de invasão e vCISO para sua empresa.</p>
+    <a class="btn" href="https://alexander.durco.com.br" target="_blank" rel="noopener">Fale com a Durço →</a>
+  </div>
+</main>
+
+<footer>
+  <p><strong>Arsenal OSINT Brasil</strong> — curadoria da <a href="https://alexander.durco.com.br" target="_blank" rel="noopener">Durço Consultoria de TI & Cyber Security</a> · SP/Campinas · B2B</p>
+  <p style="margin-top:0.4rem;">Ferramentas de inteligência de fontes abertas · Uso ético e legal</p>
+</footer>
+
+</body>
+</html>
