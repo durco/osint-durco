@@ -4,185 +4,382 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Arsenal OSINT Brasil — Ferramentas de Investigação Digital | Durço Consultoria</title>
-<meta name="description" content="Coleção curada com 3404+ ferramentas OSINT (Open Source Intelligence): consulta CNPJ, processos judiciais, WHOIS, vazamentos de dados, dark web, geolocalização e mais. Por Durço Consultoria de TI & Cyber Security.">
+<meta name="description" content="Coleção curada com 3404 ferramentas OSINT (Open Source Intelligence): consulta CNPJ, processos judiciais, WHOIS, vazamentos de dados, dark web, geolocalização e mais. Por Durço Consultoria de TI & Cyber Security.">
 <meta name="keywords" content="OSINT, OSINT Brasil, investigação digital, consulta CNPJ, consulta processos, WHOIS, vazamento de dados, dark web, inteligência de fontes abertas, Durço Consultoria">
 <meta property="og:title" content="Arsenal OSINT Brasil — Durço Consultoria">
-<meta property="og:description" content="902 ferramentas de investigação digital e inteligência de fontes abertas.">
+<meta property="og:description" content="3404 ferramentas de investigação digital e inteligência de fontes abertas.">
 <style>
   :root {
-    --bg: #0b0f17;
-    --bg-card: #131a26;
-    --bg-card-hover: #1a2332;
-    --border: #232f42;
-    --text: #e2e8f0;
-    --text-dim: #94a3b8;
-    --accent: #22d3ee;
-    --accent2: #f59e0b;
-    --radius: 10px;
+    --bg: #050a08;
+    --bg2: #081210;
+    --card: #0a1512;
+    --card-hover: #0f1f1a;
+    --border: #14352b;
+    --border-hover: #2a6b52;
+    --text: #c8f7e0;
+    --dim: #5fa88a;
+    --green: #22ff88;
+    --green-dim: #0f9f5f;
+    --cyan: #22d3ee;
+    --amber: #ffb020;
+    --red: #ff5555;
+    --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    line-height: 1.5;
+    font-family: var(--font-mono);
+    line-height: 1.55;
+    font-size: 15px;
+    overflow-x: hidden;
   }
+  /* fundo com grade + brilho */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(34,255,136,0.10), transparent 60%),
+      linear-gradient(rgba(34,255,136,0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34,255,136,0.028) 1px, transparent 1px);
+    background-size: 100% 100%, 42px 42px, 42px 42px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  /* scanlines CRT */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.14) 0px, rgba(0,0,0,0.14) 1px, transparent 1px, transparent 3px);
+    pointer-events: none;
+    z-index: 999;
+  }
+  .terminal {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== HEADER / BOOT ===== */
   header {
-    padding: 3rem 1.5rem 1.5rem;
+    padding: 2.2rem 1.5rem 1.6rem;
     text-align: center;
     border-bottom: 1px solid var(--border);
-    background: radial-gradient(ellipse at top, rgba(34,211,238,0.08), transparent 60%);
+    background: rgba(5,10,8,0.6);
   }
-  header h1 {
-    font-size: 2.2rem;
-    letter-spacing: -0.5px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  header p { color: var(--text-dim); max-width: 720px; margin: 0.8rem auto 0; font-size: 1.05rem; }
-  .badge {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 0.3rem 0.9rem;
+  .boot-line {
+    font-size: 0.85rem;
+    color: var(--dim);
+    text-align: left;
+    max-width: 780px;
+    margin: 0 auto 1.2rem;
+    padding: 0.7rem 1rem;
+    background: rgba(0,0,0,0.35);
     border: 1px solid var(--border);
-    border-radius: 999px;
+    border-radius: 8px;
     font-size: 0.8rem;
-    color: var(--text-dim);
-    background: var(--bg-card);
   }
-  .nav {
+  .boot-line .ok { color: var(--green); }
+  .boot-line .warn { color: var(--amber); }
+  .blink { animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  h1 {
+    font-size: clamp(1.6rem, 4.5vw, 2.6rem);
+    letter-spacing: 1px;
+    color: var(--green);
+    text-shadow: 0 0 18px rgba(34,255,136,0.55), 0 0 60px rgba(34,255,136,0.2);
+    margin-bottom: 0.4rem;
+  }
+  h1 .cursor { display: inline-block; width: 0.65em; height: 1em; background: var(--green); vertical-align: -0.15em; animation: blink 1s step-end infinite; box-shadow: 0 0 12px var(--green); }
+  .subtitle {
+    color: var(--dim);
+    max-width: 780px;
+    margin: 0 auto;
+    font-size: 0.92rem;
+  }
+  .subtitle strong { color: var(--green); }
+
+  /* ===== STATS BAR ===== */
+  .stats {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8,18,16,0.7);
+  }
+  .stat {
+    padding: 0.4rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.82rem;
+    background: rgba(0,0,0,0.3);
+  }
+  .stat b { color: var(--green); font-size: 1rem; }
+
+  /* ===== SEARCH BAR ===== */
+  .search-wrap {
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(5,10,8,0.85);
     position: sticky;
     top: 0;
-    z-index: 50;
-    background: rgba(11,15,23,0.92);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    backdrop-filter: blur(6px);
+  }
+  .search-box {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border: 1px solid var(--border-hover);
+    border-radius: 8px;
     padding: 0.6rem 1rem;
+    background: rgba(0,0,0,0.5);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .search-box:focus-within {
+    border-color: var(--green);
+    box-shadow: 0 0 16px rgba(34,255,136,0.25);
+  }
+  .search-box .prompt { color: var(--green); font-weight: bold; }
+  .search-box input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    caret-color: var(--green);
+  }
+  .search-box input::placeholder { color: var(--dim); }
+  .search-count { font-size: 0.78rem; color: var(--dim); white-space: nowrap; }
+
+  /* ===== NAV ===== */
+  .nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    gap: 0.35rem;
     justify-content: center;
-    max-height: 200px;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8,18,16,0.85);
+    max-height: 170px;
     overflow-y: auto;
   }
   .nav a {
-    color: var(--text-dim);
+    color: var(--dim);
     text-decoration: none;
-    font-size: 0.78rem;
-    padding: 0.25rem 0.6rem;
+    font-size: 0.74rem;
+    padding: 0.22rem 0.55rem;
     border: 1px solid var(--border);
-    border-radius: 999px;
+    border-radius: 4px;
     white-space: nowrap;
-    transition: color 0.12s ease, border-color 0.12s ease;
+    transition: all 0.15s ease;
+    background: rgba(0,0,0,0.25);
   }
-  .nav a:hover { color: var(--accent); border-color: var(--accent); }
-  main { max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  .nav a:hover { color: var(--green); border-color: var(--green); box-shadow: 0 0 10px rgba(34,255,136,0.2); }
+
+  /* ===== GRID ===== */
+  main { max-width: 1500px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; position: relative; z-index: 1; }
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.2rem;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 1.1rem;
     align-items: start;
   }
   .cat {
-    background: var(--bg-card);
+    background: var(--card);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.2rem;
-    scroll-margin-top: 140px;
-    transition: background 0.15s ease, border-color 0.15s ease;
+    border-radius: 8px;
+    padding: 1.1rem;
+    scroll-margin-top: 190px;
+    transition: all 0.18s ease;
+    position: relative;
   }
-  .cat:hover { background: var(--bg-card-hover); border-color: #31415c; }
+  .cat::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green-dim), transparent);
+    opacity: 0.4;
+    transition: opacity 0.18s ease;
+  }
+  .cat:hover { background: var(--card-hover); border-color: var(--border-hover); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.45), 0 0 0 1px rgba(34,255,136,0.08); }
+  .cat:hover::before { opacity: 1; }
   .cat h2 {
-    font-size: 1rem;
-    margin-bottom: 0.9rem;
+    font-size: 0.98rem;
+    margin-bottom: 0.8rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--accent);
+    color: var(--green);
     border-bottom: 1px solid var(--border);
     padding-bottom: 0.5rem;
+    text-shadow: 0 0 12px rgba(34,255,136,0.25);
   }
-  .cat h2 .icon { font-size: 1.1rem; }
-  .cat ul { list-style: none; max-height: 420px; overflow-y: auto; padding-right: 0.2rem; }
+  .cat h2 .icon { font-size: 1.05rem; filter: drop-shadow(0 0 6px rgba(34,255,136,0.3)); }
+  .cat h2 .count {
+    margin-left: auto;
+    font-size: 0.7rem;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    padding: 0.05rem 0.45rem;
+    border-radius: 999px;
+    background: rgba(0,0,0,0.3);
+    font-weight: normal;
+  }
+  .cat ul { list-style: none; max-height: 400px; overflow-y: auto; padding-right: 0.2rem; }
   .cat ul::-webkit-scrollbar { width: 4px; }
-  .cat ul::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .cat li { margin-bottom: 0.4rem; }
+  .cat ul::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 2px; }
+  .cat li { margin-bottom: 0.35rem; }
   .cat a {
     color: var(--text);
     text-decoration: none;
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.22rem 0.3rem;
-    border-radius: 6px;
-    transition: background 0.12s ease, color 0.12s ease;
+    padding: 0.2rem 0.3rem;
+    border-radius: 4px;
+    transition: all 0.12s ease;
   }
-  .cat a:hover { color: var(--accent); background: rgba(34,211,238,0.08); }
-  .cat a .ext { color: var(--text-dim); font-size: 0.72rem; opacity: 0.7; white-space: nowrap; }
-  .cat a:hover .ext { opacity: 1; }
+  .cat a:hover { color: var(--green); background: rgba(34,255,136,0.07); padding-left: 0.55rem; }
+  .cat a .ext { color: var(--dim); font-size: 0.7rem; opacity: 0.65; white-space: nowrap; }
+  .cat a:hover .ext { opacity: 1; color: var(--green); }
+  .hidden { display: none !important; }
+
+  /* ===== NOTE ===== */
   .note {
-    margin-top: 2rem;
+    margin-top: 1.8rem;
     padding: 1rem 1.2rem;
     border: 1px solid var(--border);
-    border-left: 3px solid var(--accent2);
-    border-radius: var(--radius);
-    background: rgba(245,158,11,0.05);
-    font-size: 0.88rem;
-    color: var(--text-dim);
+    border-left: 3px solid var(--amber);
+    border-radius: 8px;
+    background: rgba(255,176,32,0.04);
+    font-size: 0.85rem;
+    color: var(--dim);
   }
+  .note strong { color: var(--amber); }
+
+  /* ===== CTA ===== */
   .cta {
-    margin-top: 2.5rem;
-    padding: 2rem;
+    margin-top: 2.2rem;
+    padding: 2.2rem;
     text-align: center;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: linear-gradient(135deg, rgba(34,211,238,0.08), rgba(245,158,11,0.06));
+    border: 1px solid var(--border-hover);
+    border-radius: 10px;
+    background:
+      radial-gradient(ellipse 70% 100% at 50% 0%, rgba(34,255,136,0.10), transparent 70%),
+      rgba(8,18,16,0.8);
+    position: relative;
+    overflow: hidden;
   }
-  .cta h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
-  .cta p { color: var(--text-dim); margin-bottom: 1.2rem; }
+  .cta::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    background: conic-gradient(from 0deg, transparent 0deg, rgba(34,255,136,0.5) 90deg, transparent 180deg, transparent 360deg);
+    animation: border-rotate 6s linear infinite;
+    z-index: -1;
+    opacity: 0.5;
+  }
+  @keyframes border-rotate { to { transform: rotate(360deg); } }
+  .cta h3 { font-size: 1.35rem; color: var(--green); margin-bottom: 0.5rem; text-shadow: 0 0 16px rgba(34,255,136,0.4); }
+  .cta p { color: var(--dim); margin-bottom: 1.4rem; font-size: 0.9rem; }
   .btn {
     display: inline-block;
-    padding: 0.7rem 1.6rem;
-    background: linear-gradient(90deg, var(--accent), #0891b2);
-    color: #04121a;
-    font-weight: 600;
+    padding: 0.85rem 2.4rem;
+    background: linear-gradient(90deg, var(--green-dim), var(--green));
+    color: #03150c;
+    font-weight: bold;
+    font-family: var(--font-mono);
+    font-size: 1rem;
     text-decoration: none;
-    border-radius: 8px;
-    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: all 0.18s ease;
+    animation: btn-pulse 2.2s ease-in-out infinite;
+    box-shadow: 0 0 24px rgba(34,255,136,0.35);
   }
-  .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(34,211,238,0.25); }
+  .btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 0 40px rgba(34,255,136,0.6);
+    animation-play-state: paused;
+  }
+  @keyframes btn-pulse {
+    0%, 100% { box-shadow: 0 0 18px rgba(34,255,136,0.3); }
+    50% { box-shadow: 0 0 34px rgba(34,255,136,0.65); }
+  }
+
+  /* ===== FOOTER ===== */
   footer {
     text-align: center;
     padding: 2rem 1.5rem;
     border-top: 1px solid var(--border);
-    color: var(--text-dim);
-    font-size: 0.82rem;
+    color: var(--dim);
+    font-size: 0.8rem;
+    position: relative;
+    z-index: 1;
+    background: rgba(5,10,8,0.8);
   }
-  footer a { color: var(--accent); text-decoration: none; }
+  footer a { color: var(--green); text-decoration: none; }
+  footer a:hover { text-shadow: 0 0 10px rgba(34,255,136,0.6); }
+
   @media (max-width: 640px) {
-    header h1 { font-size: 1.6rem; }
     .grid { grid-template-columns: 1fr; }
+    .search-wrap { top: 0; }
+    .cat { scroll-margin-top: 210px; }
   }
 </style>
 </head>
 <body>
+<div class="terminal">
 
 <header>
-  <h1>🕵️ Arsenal OSINT Brasil</h1>
-  <p>Inteligência de fontes abertas (Open Source Intelligence) para investigação digital: consultas públicas, processos, domínios, vazamentos, dark web e mais — <strong>3404 ferramentas</strong> curadas pela <strong>Durço Consultoria de TI & Cyber Security</strong>.</p>
-  <span class="badge">Atualizado: agosto/2026 · 3404 ferramentas · Fontes oficiais e gratuitas em destaque · Baseado em OSINT4ALL + SOCMINT + GEOINT + OSINT Framework + Awesome OSINT + Hatless1der + Technisette</span>
+  <div class="boot-line" id="boot">
+    <div>root@durco:~$ ./arsenal_osint.sh --init --brasil<span class="blink">█</span></div>
+    <div>[<span class="ok"> OK </span>] carregando 46 módulos de inteligência...</div>
+    <div>[<span class="ok"> OK </span>] conectando fontes públicas: Receita Federal, TJSP, Registro.br, vazamentos...</div>
+    <div>[<span class="warn">..!</span>] LGPD ativa — uso responsável dos dados</div>
+    <div id="boot-done">[<span class="ok"> OK </span>] arsenal armado com <span class="ok">3404 ferramentas</span>. pronto para operar.</div>
+  </div>
+  <h1>&gt; ARSENAL OSINT BRASIL<span class="cursor"></span></h1>
+  <p class="subtitle">inteligência de fontes abertas para investigação digital — <strong>3404 ferramentas</strong> curadas pela <strong>Durço Consultoria de TI &amp; Cyber Security</strong>.<br>consulta pública · processos · domínios · vazamentos · dark web · geo</p>
 </header>
 
-<nav class="nav">
-<a href="#vazamentos">🔓  Vazamentos de Dados</a><a href="#email">✉️  E-mail</a><a href="#darkweb">🕸️  Deep / Dark Web</a><a href="#pessoas">👤  Pessoas & Redes Sociais</a><a href="#geo">📍  Geo / Mapas</a><a href="#buscadores">🔎  Motores de Busca</a><a href="#facebook">📘  Facebook</a><a href="#twitter">🐦  Twitter / X</a><a href="#cnpj">🏢  CNPJ / CPF</a><a href="#empresas">📊  Empresas</a><a href="#juridico">⚖️  Jurídico / Processos</a><a href="#dominios">🌐  Domínios / WHOIS</a><a href="#aprenda">🎓  Aprenda OSINT</a><a href="#throwaway-contact">📱  Contatos Descartáveis</a><a href="#id-generator">🪪  Geradores de Identidade</a><a href="#sandbox---emulator">🧪  Sandbox / Emuladores</a><a href="#productivity">🧰  Produtividade & Arquivos</a><a href="#file-upload">📤  Upload de Arquivos</a><a href="#toolset">🔧  Conjunto de Ferramentas</a><a href="#hash-recovery">🔑  Recuperação de Hashes</a><a href="#downloader">⬇️  Downloaders</a><a href="#unified-search">🧲  Busca Unificada</a><a href="#username">🏷️  Nomes de Usuário</a><a href="#phone">📞  Telefone</a><a href="#google-cse">🎯  Google CSE (buscas personalizadas)</a><a href="#cryptocurrency">🪙  Criptomoedas</a><a href="#voter-databases">🗳️  Registros de Eleitores (EUA)</a><a href="#extremist---far-right">🚨  Extremismo & Sanções</a><a href="#finance">💰  Finanças</a><a href="#linkedin">💼  LinkedIn</a><a href="#instagram">📸  Instagram</a><a href="#reddit">👽  Reddit</a><a href="#telegram-discord">📨  Telegram & Discord</a><a href="#tiktok-snapchat">🎵  TikTok & SnapChat</a><a href="#foruns">💬  Fóruns & Comunidades</a><a href="#outras-redes">📣  Outras Redes Sociais</a><a href="#satelite">🛰️  Satélite & Drones</a><a href="#maritimo">🚢  Marítimo</a><a href="#aviacao">✈️  Aviação</a><a href="#crise">⚠️  Alertas de Crise & Conflitos</a><a href="#gps">📡  GPS & Coordenadas</a><a href="#extensoes">🧩  Extensões de Navegador</a><a href="#privacidade">🔐  Privacidade & Criptografia</a><a href="#dados">📊  Dados & Estatísticas</a><a href="#malware">🦠  Malware & Threat Intel</a><a href="#veiculos">🚗  Veículos</a>
+<div class="stats">
+  <div class="stat"><b>3404</b> ferramentas</div>
+  <div class="stat"><b>46</b> categorias</div>
+  <div class="stat"><b>7</b> fontes curadas</div>
+  <div class="stat"><b>100%</b> fontes públicas</div>
+  <div class="stat"><b>gratuito</b> &amp; ético</div>
+</div>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <span class="prompt">$</span>
+    <input type="text" id="search" placeholder="buscar ferramenta, site ou categoria... ex: whatsapp, cnpj, whois, hash" autocomplete="off">
+    <span class="search-count" id="search-count"></span>
+  </div>
+</div>
+
+<nav class="nav" id="nav">
+<a href="#vazamentos">🔓 Vazamentos de Dados</a><a href="#email">✉️ E-mail</a><a href="#darkweb">🕸️ Deep / Dark Web</a><a href="#pessoas">👤 Pessoas & Redes Sociais</a><a href="#geo">📍 Geo / Mapas</a><a href="#buscadores">🔎 Motores de Busca</a><a href="#facebook">📘 Facebook</a><a href="#twitter">🐦 Twitter / X</a><a href="#cnpj">🏢 CNPJ / CPF</a><a href="#empresas">📊 Empresas</a><a href="#juridico">⚖️ Jurídico / Processos</a><a href="#dominios">🌐 Domínios / WHOIS</a><a href="#aprenda">🎓 Aprenda OSINT</a><a href="#throwaway-contact">📱 Contatos Descartáveis</a><a href="#id-generator">🪪 Geradores de Identidade</a><a href="#sandbox---emulator">🧪 Sandbox / Emuladores</a><a href="#productivity">🧰 Produtividade & Arquivos</a><a href="#file-upload">📤 Upload de Arquivos</a><a href="#toolset">🔧 Conjunto de Ferramentas</a><a href="#hash-recovery">🔑 Recuperação de Hashes</a><a href="#downloader">⬇️ Downloaders</a><a href="#unified-search">🧲 Busca Unificada</a><a href="#username">🏷️ Nomes de Usuário</a><a href="#phone">📞 Telefone</a><a href="#google-cse">🎯 Google CSE (buscas personalizadas)</a><a href="#cryptocurrency">🪙 Criptomoedas</a><a href="#voter-databases">🗳️ Registros de Eleitores (EUA)</a><a href="#extremist---far-right">🚨 Extremismo & Sanções</a><a href="#finance">💰 Finanças</a><a href="#linkedin">💼 LinkedIn</a><a href="#instagram">📸 Instagram</a><a href="#reddit">👽 Reddit</a><a href="#telegram-discord">📨 Telegram & Discord</a><a href="#tiktok-snapchat">🎵 TikTok & SnapChat</a><a href="#foruns">💬 Fóruns & Comunidades</a><a href="#outras-redes">📣 Outras Redes Sociais</a><a href="#satelite">🛰️ Satélite & Drones</a><a href="#maritimo">🚢 Marítimo</a><a href="#aviacao">✈️ Aviação</a><a href="#crise">⚠️ Alertas de Crise & Conflitos</a><a href="#gps">📡 GPS & Coordenadas</a><a href="#extensoes">🧩 Extensões de Navegador</a><a href="#privacidade">🔐 Privacidade & Criptografia</a><a href="#dados">📊 Dados & Estatísticas</a><a href="#malware">🦠 Malware & Threat Intel</a><a href="#veiculos">🚗 Veículos</a>
 </nav>
 
 <main>
-  <div class="grid">
+  <div class="grid" id="grid">
+
     <section class="cat" id="vazamentos">
       <h2><span class="icon">🔓</span> Vazamentos de Dados</h2>
       <ul>
@@ -3176,29 +3373,89 @@
         <li><a href="https://epicvin.com" target="_blank" rel="noopener">EpicVIN <span class="ext">externo ↗</span></a></li>
       </ul>
     </section>
+  
   </div>
 
-
-
-
   <div class="note">
-    ⚠️ <strong>Uso responsável:</strong> estas ferramentas utilizam apenas <strong>fontes públicas e oficiais</strong>. A coleta e o uso de dados pessoais no Brasil são regulados pela <strong>LGPD (Lei 13.709/2018)</strong>. Investigação profissional deve sempre observar finalidade legítima, necessidade e os direitos dos titulares. A Durço Consultoria utiliza estas técnicas exclusivamente para fins de segurança da informação e due diligence, em conformidade com a lei.
+    ⚠️ <strong>USO RESPONSÁVEL:</strong> estas ferramentas utilizam apenas <strong>fontes públicas e oficiais</strong>. A coleta e o uso de dados pessoais no Brasil são regulados pela <strong>LGPD (Lei 13.709/2018)</strong>. Investigação profissional deve sempre observar finalidade legítima, necessidade e os direitos dos titulares. A Durço Consultoria utiliza estas técnicas exclusivamente para fins de segurança da informação e due diligence, em conformidade com a lei.
   </div>
 
   <div class="cta">
-    <h3>🛡️ Precisa de investigação digital ou segurança?</h3>
-    <p>Due diligence, verificação de fraudes, monitoramento de vazamentos, adequação LGPD, testes de invasão e vCISO para sua empresa.</p>
-    <a class="btn" href="https://alexander.durco.com.br" target="_blank" rel="noopener">Contato →</a>
+    <h3>🛡️ PRECISA DE INVESTIGAÇÃO DIGITAL OU SEGURANÇA?</h3>
+    <p>due diligence · verificação de fraudes · monitoramento de vazamentos · adequação LGPD · testes de invasão · vCISO</p>
+    <a class="btn" href="https://alexander.durco.com.br" target="_blank" rel="noopener">▶ contato</a>
   </div>
-
-
-
 </main>
 
 <footer>
-  <p><strong>Arsenal OSINT Brasil</strong> — curadoria da <a href="https://alexander.durco.com.br" target="_blank" rel="noopener">Durço Consultoria de TI & Cyber Security</a> · SP/Campinas · B2B</p>
-  <p style="margin-top:0.4rem;">Ferramentas de inteligência de fontes abertas · Uso ético e legal · Inspirado no <a href="https://start.me/p/L1rEYQ/osint4all" target="_blank" rel="noopener">OSINT4ALL</a> de Socmint</p>
+  <p><strong>ARSENAL OSINT BRASIL</strong> — curadoria da <a href="https://alexander.durco.com.br" target="_blank" rel="noopener">Durço Consultoria de TI &amp; Cyber Security</a> · SP/Campinas · B2B</p>
+  <p style="margin-top:0.4rem;">ferramentas de inteligência de fontes abertas · uso ético e legal · inspirado em OSINT4ALL + SOCMINT + GEOINT + OSINT Framework + Awesome OSINT</p>
 </footer>
 
+</div>
+
+<script>
+// ===== Contador animado de links por categoria =====
+document.querySelectorAll('.cat').forEach(function(cat) {
+  var n = cat.querySelectorAll('li').length;
+  var badge = document.createElement('span');
+  badge.className = 'count';
+  badge.textContent = n;
+  cat.querySelector('h2').appendChild(badge);
+});
+
+// ===== Busca em tempo real =====
+var search = document.getElementById('search');
+var countEl = document.getElementById('search-count');
+var cats = Array.from(document.querySelectorAll('.cat'));
+var allLinks = cats.map(function(cat) {
+  return { cat: cat, links: Array.from(cat.querySelectorAll('a')) };
+});
+
+function doSearch() {
+  var q = search.value.trim().toLowerCase();
+  var visibleLinks = 0;
+
+  if (q.length < 2) {
+    cats.forEach(function(c) { c.classList.remove('hidden'); });
+    allLinks.forEach(function(group) {
+      group.links.forEach(function(a) { a.closest('li').classList.remove('hidden'); });
+    });
+    countEl.textContent = '';
+    return;
+  }
+
+  allLinks.forEach(function(group) {
+    var anyVisible = false;
+    group.links.forEach(function(a) {
+      var hay = (a.textContent + ' ' + a.href).toLowerCase();
+      var show = hay.indexOf(q) !== -1;
+      a.closest('li').classList.toggle('hidden', !show);
+      if (show) { anyVisible = true; visibleLinks++; }
+    });
+    group.cat.classList.toggle('hidden', !anyVisible);
+    if (anyVisible) {
+      var h2 = group.cat.querySelector('h2');
+      h2.scrollIntoView({ block: 'nearest' });
+    }
+  });
+  countEl.textContent = visibleLinks + ' resultado(s)';
+}
+
+search.addEventListener('input', doSearch);
+
+// ===== Boot sequence: linhas aparecem em sequência =====
+var boot = document.getElementById('boot');
+var lines = boot.querySelectorAll('div');
+var idx = 0;
+function nextLine() {
+  if (idx >= lines.length) return;
+  lines[idx].style.display = 'block';
+  idx++;
+  setTimeout(nextLine, 260 + Math.random() * 400);
+}
+lines.forEach(function(l) { l.style.display = 'none'; });
+setTimeout(nextLine, 300);
+</script>
 </body>
 </html>
